@@ -557,17 +557,6 @@ function App() {
               </figure>
             ))}
           </div>
-          <p className="review-source">
-            Recensioni riprese dai contenuti condivisi su{" "}
-            <a
-              href={studio.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              @twinsun_beautylab
-            </a>
-            . Le omissioni negli estratti sono indicate con […].
-          </p>
           <a
             href={studio.maps}
             className="button outline"

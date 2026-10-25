@@ -60,10 +60,6 @@ const assert = require("node:assert/strict");
     await page.locator('#recensioni [aria-label="5 stelle su 5"]').count(),
     3,
   );
-  assert.equal(
-    await page.locator("#recensioni .review-source a").getAttribute("href"),
-    "https://www.instagram.com/twinsun_beautylab/",
-  );
   const logos = page.locator(".brand-official-logo");
   assert.equal(await logos.count(), 2);
   await logos.first().evaluate((img) => img.decode());

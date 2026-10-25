@@ -1844,17 +1844,6 @@ h2 {
   line-height: 1.6;
   color: #5b4d44;
 }
-.reviews .review-source {
-  font-size: 10px;
-  line-height: 1.9;
-  color: #5b4d44;
-  max-width: 690px;
-  margin: 0 auto 30px;
-}
-.review-source a {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
 @media (prefers-reduced-motion: no-preference) {
   .review-grid > .reveal:nth-child(2) {
     --reveal-delay: 90ms;
