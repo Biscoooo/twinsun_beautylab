@@ -679,85 +679,6 @@ nav > a:hover {
 .location-card {
   background: #f8f4ef;
 }
-.map-art {
-  height: 310px;
-  position: relative;
-  overflow: hidden;
-  background:
-    repeating-linear-gradient(
-      90deg,
-      transparent,
-      transparent 65px,
-      #e4e4d8 66px,
-      #e4e4d8 72px
-    ),
-    repeating-linear-gradient(
-      0deg,
-      #eeeee6,
-      #eeeee6 50px,
-      #e4e4d8 51px,
-      #e4e4d8 57px
-    );
-}
-.street {
-  position: absolute;
-  height: 20px;
-  background: #fffef9;
-  width: 180%;
-  left: -30%;
-  top: 45%;
-  transform: rotate(-28deg);
-  border: 1px solid #deded1;
-}
-.street-b {
-  transform: rotate(61deg);
-  height: 25px;
-  left: -15%;
-}
-.street-c {
-  transform: rotate(-28deg);
-  top: 86%;
-}
-.park {
-  position: absolute;
-  top: 15%;
-  left: 10%;
-  width: 25%;
-  height: 30%;
-  background: #dad4cd;
-  transform: rotate(-28deg);
-  border-radius: 40%;
-}
-.map-pin {
-  position: absolute;
-  left: 50%;
-  top: 47%;
-  transform: translate(-50%, -50%);
-  background: #171513;
-  color: #fafaf0;
-  border: 7px solid #fafaf0;
-  border-radius: 50%;
-  padding: 15px;
-  box-shadow: 0 4px 20px #17151330;
-}
-.map-city {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 10px;
-  letter-spacing: 3px;
-}
-.map-label {
-  position: absolute;
-  top: 65%;
-  left: 50%;
-  transform: translateX(-50%);
-  white-space: nowrap;
-  font-size: 9px;
-  letter-spacing: 2px;
-  background: #f8f4efe8;
-  padding: 8px 12px;
-}
 .location-caption {
   display: flex;
   padding: 25px 25px 10px;
@@ -1214,9 +1135,6 @@ dialog::backdrop {
   .footer-nav {
     grid-column: 1/-1;
   }
-  .map-art {
-    height: 270px;
-  }
   .gallery-caption {
     font-size: 17px;
     padding: 20px 12px;
@@ -1473,9 +1391,6 @@ dialog::backdrop {
   }
   .contact-copy > p br {
     display: none;
-  }
-  .map-art {
-    height: 280px;
   }
   .footer-top {
     grid-template-columns: 1fr;
@@ -1884,4 +1799,100 @@ h2 {
 .reviews .review-card-long blockquote p {
   font-size: 21px;
   line-height: 1.5;
+}
+
+/* Posizione reale: mappa esterna solo dopo una scelta esplicita. */
+.map-shell {
+  --map-height: 400px;
+  min-height: var(--map-height);
+  background: var(--color-cream);
+}
+.map-placeholder {
+  min-height: var(--map-height);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 28px;
+}
+.map-location-icon {
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #78685955;
+  border-radius: 50%;
+  color: #5b4d44;
+  margin-bottom: 19px;
+}
+.map-placeholder .eyebrow {
+  font-size: 9px;
+  letter-spacing: 1.7px;
+  margin-bottom: 10px;
+}
+.map-address {
+  font-family: var(--font-display);
+  font-size: 32px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.map-postcode {
+  font-size: 12px;
+  margin: 7px 0 20px;
+  color: #5b4d44;
+}
+.map-placeholder .button {
+  font-size: 12px;
+}
+.map-consent {
+  font-size: 10px;
+  line-height: 1.8;
+  color: #5b4d44;
+  max-width: 290px;
+  margin-top: 17px;
+}
+.map-consent a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.map-shell iframe {
+  width: 100%;
+  height: calc(var(--map-height) - 48px);
+  display: block;
+  border: 0;
+}
+.map-controls {
+  height: 48px;
+  padding: 0 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10px;
+  gap: 15px;
+}
+.map-controls button {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  background: none;
+  min-height: 44px;
+  font-size: 11px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.location-caption small {
+  font-size: 11px;
+  line-height: 1.7;
+}
+@media (max-width: 600px) {
+  .map-shell {
+    --map-height: 390px;
+  }
+  .map-placeholder {
+    padding: 26px 20px;
+  }
+  .map-address {
+    font-size: 30px;
+  }
 }

@@ -13,6 +13,11 @@ const assert = require("node:assert/strict");
   });
   const page = await context.newPage();
   const errors = [];
+  const mapRequests = [];
+  page.on("request", (request) => {
+    if (new URL(request.url()).hostname === "www.google.com")
+      mapRequests.push(request.url());
+  });
   page.on("pageerror", (e) => errors.push(e.message));
   await page.goto(process.env.TEST_URL || "http://127.0.0.1:5173/");
   await page.getByRole("heading", { level: 1 }).waitFor();
@@ -80,6 +85,47 @@ const assert = require("node:assert/strict");
         links.every((a) => a.href === "https://wa.me/393450833217"),
       ),
     true,
+  );
+  // Google resta disattivato all'apertura. Il test isola il fornitore esterno:
+  // verifica richiesta, destinazione e controlli; non simula una verifica della cartografia.
+  assert.equal(await page.locator(".map-shell iframe").count(), 0);
+  assert.equal(mapRequests.length, 0);
+  await page.route("https://www.google.com/maps?*", (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: "text/html",
+      body: '<!doctype html><html lang="it"><title>Servizio esterno isolato nel test</title><body>Risposta del fornitore sostituita nel test.</body></html>',
+    }),
+  );
+  const mapRequest = page.waitForRequest((request) =>
+    request.url().startsWith("https://www.google.com/maps?"),
+  );
+  await page
+    .getByRole("button", { name: "Mostra mappa Google", exact: true })
+    .click();
+  const requestedUrl = new URL((await mapRequest).url());
+  assert.equal(
+    requestedUrl.searchParams.get("q"),
+    "Via Edoardo Daneo 20/C, 10135 Torino TO",
+  );
+  assert.equal(requestedUrl.searchParams.get("output"), "embed");
+  assert.equal(await page.locator(".map-shell iframe").count(), 1);
+  const directions = new URL(
+    await page.locator(".location-card .directions").getAttribute("href"),
+  );
+  assert.equal(
+    directions.searchParams.get("destination"),
+    "Via Edoardo Daneo 20/C, 10135 Torino TO",
+  );
+  await page
+    .getByRole("button", { name: "Nascondi mappa", exact: true })
+    .click();
+  assert.equal(await page.locator(".map-shell iframe").count(), 0);
+  await page.waitForFunction(() =>
+    document.activeElement?.textContent.includes("Mostra mappa Google"),
+  );
+  console.log(
+    "PASS: mappa su richiesta, indirizzo e indicazioni corretti, rimozione iframe e ripristino focus (fornitore isolato).",
   );
   await page.getByRole("button", { name: /Ingrandisci: Gli spazi/ }).click();
   await page.getByRole("dialog").waitFor();

@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import {
   studio,
+  mapLinks,
   asset,
   navigation,
   treatments,
@@ -114,6 +115,73 @@ function Modal({ children, label, onClose, className = "" }) {
     </dialog>
   );
 }
+function LocationMap() {
+  const [visible, setVisible] = useState(false);
+  const activateRef = useRef(null);
+  const hideRef = useRef(null);
+  useEffect(() => {
+    if (visible) hideRef.current?.focus({ preventScroll: true });
+  }, [visible]);
+  const hide = () => {
+    setVisible(false);
+    requestAnimationFrame(() =>
+      activateRef.current?.focus({ preventScroll: true }),
+    );
+  };
+  return (
+    <div
+      className="map-shell"
+      role="region"
+      aria-label="Mappa e posizione del centro"
+    >
+      {visible ? (
+        <>
+          <iframe
+            src={mapLinks.embed}
+            title={`Mappa di ${studio.name} — ${studio.address}, ${studio.city}`}
+            loading="lazy"
+            referrerPolicy="no-referrer"
+            allowFullScreen
+          />
+          <div className="map-controls">
+            <span>Google Maps</span>
+            <button ref={hideRef} onClick={hide}>
+              Nascondi mappa <X size={14} aria-hidden="true" />
+            </button>
+          </div>
+        </>
+      ) : (
+        <div className="map-placeholder">
+          <span className="map-location-icon" aria-hidden="true">
+            <MapPin size={32} strokeWidth={1.2} />
+          </span>
+          <p className="eyebrow">VIENI A TROVARCI A TORINO</p>
+          <p className="map-address">{studio.address}</p>
+          <p className="map-postcode">{studio.city}</p>
+          <button
+            ref={activateRef}
+            className="button"
+            onClick={() => setVisible(true)}
+          >
+            Mostra mappa Google <ArrowUpRight size={17} aria-hidden="true" />
+          </button>
+          <p className="map-consent">
+            La mappa è fornita da Google e può usare cookie. Si carica solo se
+            lo scegli.{" "}
+            <a
+              href="https://policies.google.com/privacy?hl=it"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Privacy Google
+            </a>
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function OpeningHours() {
   if (!studio.hours?.length)
     return <p>Orari: contattaci per gli aggiornamenti.</p>;
@@ -653,28 +721,16 @@ function App() {
             </div>
           </div>
           <div className="location-card reveal">
-            <div className="map-art" aria-hidden="true">
-              <span className="street street-a" />
-              <span className="street street-b" />
-              <span className="street street-c" />
-              <span className="park" />
-              <span className="map-pin">
-                <Sun size={24} />
-              </span>
-              <span className="map-city">TORINO</span>
-              <span className="map-label">TWIN SUN BEAUTYLAB</span>
-            </div>
+            <LocationMap />
             <div className="location-caption">
               <span>
-                Ci vediamo in
-                <br />
-                <strong>Via Edoardo Daneo 20/C</strong>
+                <strong>{studio.name}</strong>
                 <small>
-                  Illustrazione indicativa, non una mappa geografica
+                  {studio.address} · {studio.city}
                 </small>
               </span>
               <a
-                href={studio.maps}
+                href={mapLinks.directions}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="circle-link"
@@ -684,7 +740,7 @@ function App() {
               </a>
             </div>
             <a
-              href={studio.maps}
+              href={mapLinks.directions}
               className="text-link directions"
               target="_blank"
               rel="noopener noreferrer"
@@ -790,8 +846,11 @@ function App() {
               <p>
                 Questo sito non contiene moduli, account o sistemi di
                 prenotazione. Non utilizza strumenti di analisi o marketing. Le
-                illustrazioni sono caricate dal sito, senza incorporamenti
-                social o mappe di terze parti.
+                illustrazioni sono caricate dal sito. La mappa Google è
+                facoltativa: viene incorporata solo quando premi “Mostra mappa
+                Google”. In quel momento il browser si collega a Google, che può
+                trattare dati tecnici di connessione e usare cookie secondo la
+                propria informativa.
               </p>
               <p>
                 I link a WhatsApp, Instagram e Google Maps conducono a servizi
@@ -813,14 +872,16 @@ function App() {
           ) : (
             <>
               <p>
-                Questa versione del sito non imposta cookie né utilizza
-                archiviazione locale, tracker o contenuti esterni incorporati.
-                Non viene quindi mostrato un banner di consenso.
+                Il sito non imposta propri cookie, non usa archiviazione locale
+                e non include strumenti di analisi o marketing. La mappa Google
+                resta disattivata finché non scegli di caricarla. La tua scelta
+                non viene salvata per le visite successive.
               </p>
               <p>
-                Aprendo i collegamenti esterni, si applicano le politiche dei
-                rispettivi servizi. Se verranno aggiunti analytics, mappe o feed
-                incorporati, sarà necessario rivalutare consenso e informativa.
+                Caricando la mappa o aprendo i collegamenti esterni, si
+                applicano anche le informative dei rispettivi servizi. Puoi
+                usare il link “Indicazioni stradali” per aprire Google Maps in
+                una nuova scheda senza caricare la mappa qui.
               </p>
             </>
           )}

@@ -33,6 +33,12 @@ export const studio = {
     { label: "Domenica", dayOfWeek: "Sunday", closed: true },
   ],
 };
+const mapAddress = `${studio.address}, ${studio.city}`;
+export const mapLinks = {
+  embed: `https://www.google.com/maps?hl=it&q=${encodeURIComponent(mapAddress)}&z=17&output=embed`,
+  directions: `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(mapAddress)}`,
+};
+
 export const navigation = [
   ["Home", "home"],
   ["Chi siamo", "chi-siamo"],

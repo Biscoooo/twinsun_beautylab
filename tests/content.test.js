@@ -13,7 +13,6 @@ test("Contatto unico WhatsApp senza messaggio o parametri", () => {
   const app = readFileSync("src/main.jsx", "utf8");
   assert.ok(!app.includes("wa.me/"));
   assert.ok(!app.includes("<form"));
-  assert.ok(!app.includes("<iframe"));
 });
 test("Solo categorie confermate, senza prezzi né valutazioni inventate", () => {
   assert.deepEqual(
