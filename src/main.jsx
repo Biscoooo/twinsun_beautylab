@@ -522,7 +522,10 @@ function App() {
           </div>
           <div className="review-grid">
             {reviews.map((review) => (
-              <figure className="review-card reveal" key={review.author}>
+              <figure
+                className={`review-card reveal${review.text.length > 350 ? " review-card-long" : ""}`}
+                key={review.author}
+              >
                 <span
                   className="review-stars"
                   role="img"
@@ -547,11 +550,6 @@ function App() {
                   </span>
                   <span>
                     <cite>{review.author}</cite>
-                    <small>
-                      {review.excerpt
-                        ? "Estratto della recensione"
-                        : "Recensione condivisa dal centro"}
-                    </small>
                   </span>
                 </figcaption>
               </figure>
