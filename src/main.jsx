@@ -144,18 +144,37 @@ function App() {
     [faq, setFaq] = useState(null);
   const menuButton = useRef();
   useEffect(() => {
-    const obs = new IntersectionObserver(
-      (entries) =>
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.classList.add("visible");
-            obs.unobserve(e.target);
+    const elements = [...document.querySelectorAll(".reveal")];
+    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (!("IntersectionObserver" in window) || preference.matches) {
+      elements.forEach((element) => element.classList.add("visible"));
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
           }
-        }),
+        });
+      },
       { threshold: 0.08 },
     );
-    document.querySelectorAll(".reveal").forEach((e) => obs.observe(e));
-    return () => obs.disconnect();
+    elements.forEach((element) => observer.observe(element));
+    document.documentElement.classList.add("motion-ready");
+    const revealAll = () => {
+      if (preference.matches) {
+        elements.forEach((element) => element.classList.add("visible"));
+        observer.disconnect();
+      }
+    };
+    preference.addEventListener("change", revealAll);
+    return () => {
+      observer.disconnect();
+      preference.removeEventListener("change", revealAll);
+      document.documentElement.classList.remove("motion-ready");
+    };
   }, []);
   useEffect(() => {
     if (photo === null) return;

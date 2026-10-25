@@ -876,31 +876,133 @@ footer {
   transform: none;
 }
 @media (prefers-reduced-motion: no-preference) {
-  .reveal {
+  .motion-ready .reveal {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(22px);
     transition:
-      opacity 0.65s,
-      transform 0.65s;
+      opacity 0.7s ease,
+      transform 0.7s cubic-bezier(0.2, 0.65, 0.3, 1);
+    transition-delay: var(--reveal-delay, 0ms);
   }
-  .reveal.visible {
+  .motion-ready .reveal.visible {
     opacity: 1;
     transform: none;
   }
-  .hero-copy {
-    animation: arrive 0.8s ease-out;
+  .treatment-grid > .reveal:nth-child(3n + 2),
+  .gallery-grid > .reveal:nth-child(2),
+  .value-grid > .reveal:nth-child(2) {
+    --reveal-delay: 90ms;
   }
-  @keyframes arrive {
+  .treatment-grid > .reveal:nth-child(3n + 3),
+  .gallery-grid > .reveal:nth-child(3),
+  .value-grid > .reveal:nth-child(3) {
+    --reveal-delay: 180ms;
+  }
+  .value-grid > .reveal:nth-child(4) {
+    --reveal-delay: 240ms;
+  }
+  .hero-copy > .eyebrow,
+  .hero-copy > h1,
+  .hero-copy > .intro,
+  .hero-copy > .hero-actions,
+  .hero-copy > .hero-bottom {
+    animation: hero-enter 0.8s cubic-bezier(0.2, 0.65, 0.3, 1) backwards;
+  }
+  .hero-copy > h1 {
+    animation-delay: 80ms;
+  }
+  .hero-copy > .intro {
+    animation-delay: 160ms;
+  }
+  .hero-copy > .hero-actions {
+    animation-delay: 240ms;
+  }
+  .hero-copy > .hero-bottom {
+    animation-delay: 320ms;
+  }
+  .hero-art > img {
+    animation: hero-image 1.3s ease-out backwards;
+  }
+  .hero-note {
+    animation: hero-enter 0.8s 0.35s backwards;
+  }
+  .heading-sun svg {
+    animation: sun-unfold 1.3s 0.15s ease-out backwards;
+    transition: transform 0.7s ease;
+  }
+  .button > svg,
+  .text-link > svg {
+    transition: transform 0.25s ease;
+  }
+  .button:is(:hover, :focus-visible) > svg,
+  .text-link:is(:hover, :focus-visible) > svg {
+    transform: translate(2px, -2px);
+  }
+  dialog[open] {
+    animation: dialog-enter 0.22s ease-out;
+  }
+  @keyframes hero-enter {
     from {
       opacity: 0;
-      transform: translateY(15px);
+      transform: translateY(18px);
     }
     to {
       opacity: 1;
       transform: none;
     }
   }
+  @keyframes hero-image {
+    from {
+      transform: scale(1.045);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+  @keyframes sun-unfold {
+    from {
+      opacity: 0;
+      transform: rotate(-55deg);
+    }
+    to {
+      opacity: 1;
+      transform: rotate(0);
+    }
+  }
+  @keyframes dialog-enter {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @media (hover: hover) and (pointer: fine) {
+    h1:hover .heading-sun svg {
+      transform: rotate(70deg);
+    }
+    .service-art::before,
+    .service-art::after {
+      transition: transform 0.6s ease;
+    }
+    .treatment:hover .service-art::before {
+      transform: scale(1.08);
+    }
+    .treatment:hover .service-art::after {
+      transform: translate(18px, 8px) scale(0.97);
+    }
+  }
+  @media (max-width: 600px) {
+    .treatment-grid > .reveal,
+    .gallery-grid > .reveal,
+    .value-grid > .reveal {
+      --reveal-delay: 0ms;
+    }
+  }
 }
+
 dialog {
   position: fixed;
   margin: auto;
@@ -1621,11 +1723,56 @@ footer {
 }
 
 /* Tipografia: titoli espressivi e testi leggibili, anche su smartphone. */
-h1{letter-spacing:-.035em}h2{line-height:1.1}
-.brand{font-weight:500}
-.treatment h3{font-size:30px;font-weight:500;line-height:1.12;letter-spacing:-.015em}
-.value-grid h3{font-size:28px;font-weight:500}
-.hero-note em{font-size:22px}.signature{font-size:24px}
-.treatment>p:not(.eyebrow){font-size:13px;line-height:1.85}
-.about-copy>p:not(.eyebrow){font-size:14px}
-@media(max-width:600px){.treatment h3{font-size:29px}.value-grid h3{font-size:25px}.about-copy>p:not(.eyebrow){font-size:13px}}
+h1 {
+  letter-spacing: -0.035em;
+}
+h2 {
+  line-height: 1.1;
+}
+.brand {
+  font-weight: 500;
+}
+.treatment h3 {
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+}
+.value-grid h3 {
+  font-size: 28px;
+  font-weight: 500;
+}
+.hero-note em {
+  font-size: 22px;
+}
+.signature {
+  font-size: 24px;
+}
+.treatment > p:not(.eyebrow) {
+  font-size: 13px;
+  line-height: 1.85;
+}
+.about-copy > p:not(.eyebrow) {
+  font-size: 14px;
+}
+@media (max-width: 600px) {
+  .treatment h3 {
+    font-size: 29px;
+  }
+  .value-grid h3 {
+    font-size: 25px;
+  }
+  .about-copy > p:not(.eyebrow) {
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button:hover,
+  .floating-wa:hover,
+  .gallery-item:hover img,
+  .treatment-image:hover img,
+  .service-art:hover > .service-mark {
+    transform: none;
+  }
+}

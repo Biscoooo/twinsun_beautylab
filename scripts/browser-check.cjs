@@ -17,8 +17,20 @@ const assert = require("node:assert/strict");
   await page.goto(process.env.TEST_URL || "http://127.0.0.1:5173/");
   await page.getByRole("heading", { level: 1 }).waitFor();
   await page.evaluate(() => document.fonts.ready);
-  assert.ok(await page.evaluate(() => document.fonts.check('400 16px "Cormorant Garamond"') && document.fonts.check('400 16px "Manrope Variable"')));
-  assert.ok(await page.locator('h1').evaluate(el => getComputedStyle(el).fontFamily.includes('Cormorant Garamond')));
+  assert.ok(
+    await page.evaluate(
+      () =>
+        document.fonts.check('400 16px "Cormorant Garamond"') &&
+        document.fonts.check('400 16px "Manrope Variable"'),
+    ),
+  );
+  assert.ok(
+    await page
+      .locator("h1")
+      .evaluate((el) =>
+        getComputedStyle(el).fontFamily.includes("Cormorant Garamond"),
+      ),
+  );
   assert.equal(await page.locator("main section[id]").count(), 7);
   assert.equal(await page.locator("#trattamenti article").count(), 6);
   for (const title of [
@@ -173,6 +185,74 @@ const assert = require("node:assert/strict");
   assert.equal(mobileA11y.violations.length, 0);
   console.log(
     "PASS: gallery, modal Escape, FAQ, privacy, mobile navigation, WhatsApp, 5 responsive viewports, browser console, axe desktop/mobile.",
+  );
+  // Verifica gli effetti reali e il cambio di preferenza senza ricaricare il sito.
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.reload();
+  await page.getByRole("heading", { level: 1 }).waitFor();
+  assert.notEqual(
+    await page
+      .locator("h1")
+      .evaluate((el) => getComputedStyle(el).animationName),
+    "none",
+  );
+  for (const card of [
+    page.locator(".treatment").first(),
+    page.locator(".treatment").last(),
+  ]) {
+    await card.scrollIntoViewIfNeeded();
+    await card.evaluate(
+      (el) =>
+        new Promise((resolve, reject) => {
+          const started = performance.now();
+          const check = () => {
+            if (getComputedStyle(el).opacity === "1") return resolve();
+            if (performance.now() - started > 5000)
+              return reject(new Error("Scheda rimasta nascosta"));
+            requestAnimationFrame(check);
+          };
+          check();
+        }),
+    );
+  }
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.waitForFunction(() =>
+    [...document.querySelectorAll(".reveal")].every(
+      (el) => getComputedStyle(el).opacity === "1",
+    ),
+  );
+  assert.equal(
+    await page
+      .locator("h1")
+      .evaluate((el) => getComputedStyle(el).animationName),
+    "none",
+  );
+  assert.equal(
+    await page.evaluate(
+      () =>
+        document.getAnimations().filter((a) => a.playState === "running")
+          .length,
+    ),
+    0,
+  );
+  // In assenza dell'osservatore, ogni sezione deve restare leggibile.
+  await page.addInitScript(() => {
+    delete window.IntersectionObserver;
+  });
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.reload();
+  await page.getByRole("heading", { level: 1 }).waitFor();
+  assert.ok(
+    await page
+      .locator(".reveal")
+      .evaluateAll((els) =>
+        els.every((el) => getComputedStyle(el).opacity === "1"),
+      ),
+  );
+  assert.deepEqual(errors, []);
+  console.log(
+    "PASS: animazioni attive, comparsa delle schede, cambio live a movimento ridotto, fallback senza IntersectionObserver.",
   );
   await browser.close();
 })().catch((e) => {

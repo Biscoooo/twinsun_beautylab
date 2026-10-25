@@ -65,3 +65,8 @@ La build segue automaticamente il percorso di progetto fornito da GitHub Pages, 
 ## Tipografia
 
 Cormorant Garamond (400, 400 corsivo e 500) per titoli, citazioni e marchio tipografico; Manrope variabile per testi, navigazione e controlli. I font sono distribuiti localmente tramite pacchetti Fontsource, con `font-display: swap`: nessuna richiesta a Google Fonts o altri fornitori esterni. Famiglie centralizzate nelle variabili `--font-display` e `--font-body` del tema. Licenze OFL incluse in `public/licenses/`.
+
+
+## Animazioni
+
+Ingresso progressivo di titolo, testo e pulsanti della hero, leggero zoom iniziale dell’illustrazione, comparsa delle sezioni con sequenza delle card su desktop, microinterazioni su frecce e dettagli solari e apertura morbida delle finestre. Nessun movimento continuo o libreria di animazione aggiunta. Le sezioni vengono osservate una volta con IntersectionObserver; i contenuti restano visibili se l’osservatore non è disponibile. `prefers-reduced-motion` disattiva gli effetti e rivela i contenuti anche quando la preferenza cambia durante la visita. Su smartphone le card non accumulano ritardi.
