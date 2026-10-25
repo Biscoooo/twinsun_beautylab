@@ -47,7 +47,7 @@ Ogni attività cloud usa il checkout esistente: non creare worktree senza richie
 
 - `npm test`: tre controlli su contatti, categorie e risorse.
 - `npm run build`: build produzione riuscita; generazione SEO verificata anche con un dominio di test e poi ripristinata in modalità anteprima.
-- `npm run test:browser` con il server attivo: gallery, Escape e dialog, FAQ, privacy, menu mobile, collegamenti WhatsApp, nessun overflow a 360/390/768/1440 px e nessun errore JavaScript.
+- `npm run test:browser` con il server attivo: gallery, Escape e dialog, FAQ, privacy, menu mobile, collegamenti WhatsApp, nessun overflow a 360/390/768/1024/1440 px e nessun errore JavaScript.
 - Axe su desktop e smartphone: nessuna violazione automatica rilevata per WCAG A/AA nelle pagine esaminate. Non sostituisce una verifica manuale completa.
 
 Il test browser usa Chromium già disponibile in questo ambiente in `/usr/bin/chromium`. Su altri sistemi impostare `CHROMIUM_PATH` al proprio eseguibile. Si può impostare `TEST_URL` per verificare anche la build servita in preview. Le schermate di test sono salvate in `/tmp/twinsun-desktop.png` e `/tmp/twinsun-mobile.png`, fuori dal checkout.
@@ -60,3 +60,8 @@ Il workflow `.github/workflows/pages.yml` pubblica il contenuto di `dist/` dopo 
 Per la prima attivazione, nel repository aprire **Settings → Pages → Build and deployment → Source → GitHub Actions**. Quindi avviare il workflow. Il link effettivo appare nel risultato del job `deploy` e in Settings → Pages: non è disponibile finché il deploy non riesce. Il repository deve supportare Pages secondo visibilità e piano GitHub.
 
 La build segue automaticamente il percorso di progetto fornito da GitHub Pages, incluse immagini, logo e favicon. Per riprodurla localmente: `BASE_PATH=/twinsun_beautylab/ npm run build`, poi avviare `BASE_PATH=/twinsun_beautylab/ npm run preview` e aprire il percorso `/twinsun_beautylab/`. La build senza `SITE_URL` resta volutamente non indicizzabile: questa pubblicazione serve per visionare la bozza, che contiene ancora segnaposto fotografici e informativa da completare.
+
+
+## Tipografia
+
+Cormorant Garamond (400, 400 corsivo e 500) per titoli, citazioni e marchio tipografico; Manrope variabile per testi, navigazione e controlli. I font sono distribuiti localmente tramite pacchetti Fontsource, con `font-display: swap`: nessuna richiesta a Google Fonts o altri fornitori esterni. Famiglie centralizzate nelle variabili `--font-display` e `--font-body` del tema. Licenze OFL incluse in `public/licenses/`.

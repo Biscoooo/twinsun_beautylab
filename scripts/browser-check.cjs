@@ -16,6 +16,9 @@ const assert = require("node:assert/strict");
   page.on("pageerror", (e) => errors.push(e.message));
   await page.goto(process.env.TEST_URL || "http://127.0.0.1:5173/");
   await page.getByRole("heading", { level: 1 }).waitFor();
+  await page.evaluate(() => document.fonts.ready);
+  assert.ok(await page.evaluate(() => document.fonts.check('400 16px "Cormorant Garamond"') && document.fonts.check('400 16px "Manrope Variable"')));
+  assert.ok(await page.locator('h1').evaluate(el => getComputedStyle(el).fontFamily.includes('Cormorant Garamond')));
   assert.equal(await page.locator("main section[id]").count(), 7);
   assert.equal(await page.locator("#trattamenti article").count(), 6);
   for (const title of [
@@ -111,7 +114,7 @@ const assert = require("node:assert/strict");
       })),
     ),
   );
-  for (const width of [360, 390, 768, 1440]) {
+  for (const width of [360, 390, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     assert.equal(
       await page.evaluate(
@@ -169,7 +172,7 @@ const assert = require("node:assert/strict");
   assert.equal(a11y.violations.length, 0);
   assert.equal(mobileA11y.violations.length, 0);
   console.log(
-    "PASS: gallery, modal Escape, FAQ, privacy, mobile navigation, WhatsApp, 4 responsive viewports, browser console, axe desktop/mobile.",
+    "PASS: gallery, modal Escape, FAQ, privacy, mobile navigation, WhatsApp, 5 responsive viewports, browser console, axe desktop/mobile.",
   );
   await browser.close();
 })().catch((e) => {

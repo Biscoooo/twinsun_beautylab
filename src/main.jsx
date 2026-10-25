@@ -28,6 +28,10 @@ import {
   gallery,
   businessSchema,
 } from "./data";
+import "@fontsource/cormorant-garamond/latin-400.css";
+import "@fontsource/cormorant-garamond/latin-400-italic.css";
+import "@fontsource/cormorant-garamond/latin-500.css";
+import "@fontsource-variable/manrope";
 import "./style.css";
 const treatmentIcons = {
   hands: Hand,
