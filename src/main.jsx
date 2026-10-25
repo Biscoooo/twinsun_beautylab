@@ -19,6 +19,7 @@ import {
   Eye,
   Waves,
   Wind,
+  Star,
 } from "lucide-react";
 import {
   studio,
@@ -26,6 +27,7 @@ import {
   navigation,
   treatments,
   gallery,
+  reviews,
   businessSchema,
 } from "./data";
 import "@fontsource/cormorant-garamond/latin-400.css";
@@ -501,21 +503,70 @@ function App() {
             ))}
           </div>
         </section>
-        <section id="recensioni" className="reviews reveal">
-          <p className="eyebrow">LE VOSTRE ESPERIENZE</p>
-          <span className="review-mark" aria-hidden="true">
-            “
-          </span>
-          <h2>
-            La bellezza di
-            <br />
-            <em>una parola sincera.</em>
-          </h2>
-          <p>
-            Le esperienze si raccontano meglio con le parole di chi le ha
-            vissute.
-            <br />
-            Leggi le recensioni del centro direttamente su Google.
+        <section id="recensioni" className="reviews">
+          <div className="review-intro reveal">
+            <p className="eyebrow">LE VOSTRE ESPERIENZE</p>
+            <span className="review-mark" aria-hidden="true">
+              “
+            </span>
+            <h2>
+              La bellezza di
+              <br />
+              <em>una parola sincera.</em>
+            </h2>
+            <p>
+              Accoglienza, attenzione e piccoli dettagli.
+              <br />
+              Il centro raccontato da chi lo ha vissuto.
+            </p>
+          </div>
+          <div className="review-grid">
+            {reviews.map((review) => (
+              <figure className="review-card reveal" key={review.author}>
+                <span
+                  className="review-stars"
+                  role="img"
+                  aria-label={`${review.rating} stelle su 5`}
+                >
+                  {Array.from({ length: review.rating }, (_, i) => (
+                    <Star
+                      key={i}
+                      size={15}
+                      fill="currentColor"
+                      strokeWidth={1}
+                      aria-hidden="true"
+                    />
+                  ))}
+                </span>
+                <blockquote>
+                  <p>“{review.text}”</p>
+                </blockquote>
+                <figcaption>
+                  <span className="review-initials" aria-hidden="true">
+                    {review.initials}
+                  </span>
+                  <span>
+                    <cite>{review.author}</cite>
+                    <small>
+                      {review.excerpt
+                        ? "Estratto della recensione"
+                        : "Recensione condivisa dal centro"}
+                    </small>
+                  </span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+          <p className="review-source">
+            Recensioni riprese dai contenuti condivisi su{" "}
+            <a
+              href={studio.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              @twinsun_beautylab
+            </a>
+            . Le omissioni negli estratti sono indicate con […].
           </p>
           <a
             href={studio.maps}

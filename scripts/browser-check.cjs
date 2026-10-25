@@ -46,6 +46,24 @@ const assert = require("node:assert/strict");
       1,
     );
   }
+  assert.equal(await page.locator("#recensioni .review-card").count(), 3);
+  for (const author of ["Mariagrazia P.", "Sara V.", "Gaia M."]) {
+    assert.equal(
+      await page
+        .locator("#recensioni cite")
+        .filter({ hasText: author })
+        .count(),
+      1,
+    );
+  }
+  assert.equal(
+    await page.locator('#recensioni [aria-label="5 stelle su 5"]').count(),
+    3,
+  );
+  assert.equal(
+    await page.locator("#recensioni .review-source a").getAttribute("href"),
+    "https://www.instagram.com/twinsun_beautylab/",
+  );
   const logos = page.locator(".brand-official-logo");
   assert.equal(await logos.count(), 2);
   await logos.first().evaluate((img) => img.decode());

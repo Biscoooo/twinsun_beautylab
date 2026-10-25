@@ -103,6 +103,32 @@ export const gallery = [
     note: "Segnaposto illustrato · foto dei risultati da inserire",
   },
 ];
+// Trascrizioni dalle immagini di recensioni condivise dall’utente dal profilo ufficiale.
+// Le omissioni sono indicate con […]; nessuna data o verifica Google viene attribuita.
+export const reviews = [
+  {
+    author: "Mariagrazia P.",
+    initials: "MP",
+    rating: 5,
+    text: "Locale molto pulito e organizzato, prodotti di prima qualità. Le ragazze meritano un 10 e lode.",
+    excerpt: false,
+  },
+  {
+    author: "Sara V.",
+    initials: "SV",
+    rating: 5,
+    text: "Un centro estetico dove sentirsi davvero coccolati. Francesca ed Elena sono due ragazze solari, molto preparate e professionali. L’ambiente è rilassante e moderno. Posto ideale dove trovare un momento di relax.",
+    excerpt: false,
+  },
+  {
+    author: "Gaia M.",
+    initials: "GM",
+    rating: 5,
+    text: "L’esperienza nel salone è curata nei minimi dettagli, io mi sono recata per una manicure e pedicure […] sicuramente qui ho trovato competenza, professionalità e attenzione nel soddisfare il cliente […]",
+    excerpt: true,
+  },
+];
+
 export const businessSchema = {
   "@context": "https://schema.org",
   "@type": "BeautySalon",

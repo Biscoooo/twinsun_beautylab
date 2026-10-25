@@ -1776,3 +1776,119 @@ h2 {
     transform: none;
   }
 }
+/* Le parole dei clienti, in una griglia leggibile anche senza interazione. */
+.review-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin: 44px 0 24px;
+  text-align: left;
+}
+.review-card {
+  margin: 0;
+  padding: 32px 28px;
+  background: var(--color-paper);
+  border: 1px solid #17151312;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.review-stars {
+  display: flex;
+  gap: 4px;
+  color: #78604b;
+  margin-bottom: 22px;
+}
+.review-card blockquote {
+  margin: 0;
+  flex: 1;
+}
+.reviews .review-card blockquote p {
+  font-family: var(--font-display);
+  font-size: 25px;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+  margin: 0 0 28px;
+}
+.review-card figcaption {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 20px;
+  border-top: 1px solid #17151318;
+  width: 100%;
+}
+.review-initials {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--color-cream);
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: #5b4d44;
+}
+.review-card cite {
+  display: block;
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 600;
+}
+.review-card small {
+  display: block;
+  margin-top: 5px;
+  font-size: 9px;
+  line-height: 1.6;
+  color: #5b4d44;
+}
+.reviews .review-source {
+  font-size: 10px;
+  line-height: 1.9;
+  color: #5b4d44;
+  max-width: 690px;
+  margin: 0 auto 30px;
+}
+.review-source a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .review-grid > .reveal:nth-child(2) {
+    --reveal-delay: 90ms;
+  }
+  .review-grid > .reveal:nth-child(3) {
+    --reveal-delay: 180ms;
+  }
+}
+@media (max-width: 900px) {
+  .review-grid {
+    grid-template-columns: 1fr;
+    max-width: 620px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .review-card {
+    padding: 28px;
+  }
+  .reviews .review-card blockquote p {
+    font-size: 26px;
+  }
+  .review-grid > .reveal {
+    --reveal-delay: 0ms;
+  }
+}
+@media (max-width: 600px) {
+  .reviews .review-card blockquote p {
+    font-size: 24px;
+  }
+  .review-card {
+    padding: 25px 23px;
+  }
+  .review-grid {
+    gap: 18px;
+    margin-top: 32px;
+  }
+}
