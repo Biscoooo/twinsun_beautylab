@@ -51,3 +51,12 @@ Ogni attività cloud usa il checkout esistente: non creare worktree senza richie
 - Axe su desktop e smartphone: nessuna violazione automatica rilevata per WCAG A/AA nelle pagine esaminate. Non sostituisce una verifica manuale completa.
 
 Il test browser usa Chromium già disponibile in questo ambiente in `/usr/bin/chromium`. Su altri sistemi impostare `CHROMIUM_PATH` al proprio eseguibile. Si può impostare `TEST_URL` per verificare anche la build servita in preview. Le schermate di test sono salvate in `/tmp/twinsun-desktop.png` e `/tmp/twinsun-mobile.png`, fuori dal checkout.
+
+
+## Anteprima con GitHub Pages
+
+Il workflow `.github/workflows/pages.yml` pubblica il contenuto di `dist/` dopo ogni push su `main`, oppure con **Actions → Pubblica sito su GitHub Pages → Run workflow**. Non servono token personali: usa i permessi del workflow GitHub.
+
+Per la prima attivazione, nel repository aprire **Settings → Pages → Build and deployment → Source → GitHub Actions**. Quindi avviare il workflow. Il link effettivo appare nel risultato del job `deploy` e in Settings → Pages: non è disponibile finché il deploy non riesce. Il repository deve supportare Pages secondo visibilità e piano GitHub.
+
+La build segue automaticamente il percorso di progetto fornito da GitHub Pages, incluse immagini, logo e favicon. Per riprodurla localmente: `BASE_PATH=/twinsun_beautylab/ npm run build`, poi avviare `BASE_PATH=/twinsun_beautylab/ npm run preview` e aprire il percorso `/twinsun_beautylab/`. La build senza `SITE_URL` resta volutamente non indicizzabile: questa pubblicazione serve per visionare la bozza, che contiene ancora segnaposto fotografici e informativa da completare.

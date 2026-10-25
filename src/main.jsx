@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import {
   studio,
+  asset,
   navigation,
   treatments,
   gallery,
@@ -226,7 +227,7 @@ function App() {
           </div>
           <div className="hero-art">
             <img
-              src="/images/studio.svg"
+              src={asset("/images/studio.svg")}
               alt="Illustrazione segnaposto: composizione architettonica con archi e forme botaniche"
               width="900"
               height="1100"
@@ -256,7 +257,7 @@ function App() {
         <section id="chi-siamo" className="about section reveal">
           <div className="about-visual">
             <img
-              src="/images/dettaglio.svg"
+              src={asset("/images/dettaglio.svg")}
               alt="Segnaposto illustrato per una futura fotografia degli interni"
               width="700"
               height="850"

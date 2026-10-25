@@ -21,7 +21,7 @@ const assert = require("node:assert/strict");
   assert.equal(await logos.count(), 2);
   await logos.first().evaluate(img => img.decode());
   assert.ok(await logos.evaluateAll(images => images.every(img => img.complete && img.naturalWidth === 150)));
-  assert.equal(await page.locator('link[rel="icon"]').getAttribute('href'), '/images/logo.jpg');
+  assert.equal(await page.locator('link[rel="icon"]').getAttribute('href'), new URL('images/logo.jpg', process.env.TEST_URL || 'http://127.0.0.1:5173/').pathname);
   assert.equal(
     await page
       .locator('a[href^="https://wa.me/"]')

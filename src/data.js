@@ -1,6 +1,9 @@
+// I percorsi seguono la base Vite anche nelle pagine di progetto GitHub Pages.
+export const asset = (path) => `${import.meta.env?.BASE_URL || "/"}${path.replace(/^\//, "")}`;
+
 export const studio = {
   name: "Twin Sun Beautylab",
-  logo: "/images/logo.jpg", // Originale fornito dall’utente, salvato localmente.
+  logo: asset("/images/logo.jpg"), // Originale fornito dall’utente, salvato localmente.
   phone: "+39 345 083 3217",
   phoneHref: "tel:+393450833217",
   whatsapp: "https://wa.me/393450833217",
@@ -33,36 +36,36 @@ export const treatments = [
     title: "Manicure e cura delle mani",
     label: "01 / MANI",
     text: "Un momento da dedicare alle tue mani. Scrivici per conoscere i trattamenti disponibili e scegliere quello adatto alle tue esigenze.",
-    image: "/images/mani.svg",
+    image: asset("/images/mani.svg"),
   },
   {
     id: "piedi",
     title: "Pedicure e cura dei piedi",
     label: "02 / PIEDI",
     text: "La cura di sé passa anche dai piccoli gesti. Contattaci per informazioni sui servizi dedicati al benessere e alla bellezza dei piedi.",
-    image: "/images/piedi.svg",
+    image: asset("/images/piedi.svg"),
   },
   {
     id: "unghie",
     title: "Bellezza delle unghie",
     label: "03 / UNGHIE",
     text: "Dettagli che parlano di te. Scopri con noi le possibilità per le tue unghie e richiedi informazioni su tecniche e disponibilità.",
-    image: "/images/unghie.svg",
+    image: asset("/images/unghie.svg"),
   },
 ];
 export const gallery = [
   {
-    image: "/images/studio.svg",
+    image: asset("/images/studio.svg"),
     title: "Gli spazi del centro",
     note: "Segnaposto illustrato · foto degli ambienti da inserire",
   },
   {
-    image: "/images/mani.svg",
+    image: asset("/images/mani.svg"),
     title: "La cura dei dettagli",
     note: "Segnaposto illustrato · foto dei trattamenti da inserire",
   },
   {
-    image: "/images/unghie.svg",
+    image: asset("/images/unghie.svg"),
     title: "I vostri piccoli rituali",
     note: "Segnaposto illustrato · foto dei risultati da inserire",
   },
