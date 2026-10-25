@@ -1,5 +1,6 @@
 // I percorsi seguono la base Vite anche nelle pagine di progetto GitHub Pages.
-export const asset = (path) => `${import.meta.env?.BASE_URL || "/"}${path.replace(/^\//, "")}`;
+export const asset = (path) =>
+  `${import.meta.env?.BASE_URL || "/"}${path.replace(/^\//, "")}`;
 
 export const studio = {
   name: "Twin Sun Beautylab",
@@ -15,8 +16,18 @@ export const studio = {
   hours: [
     { label: "Lunedì", dayOfWeek: "Monday", opens: "09:00", closes: "19:00" },
     { label: "Martedì", dayOfWeek: "Tuesday", opens: "09:00", closes: "19:00" },
-    { label: "Mercoledì", dayOfWeek: "Wednesday", opens: "11:00", closes: "20:00" },
-    { label: "Giovedì", dayOfWeek: "Thursday", opens: "09:00", closes: "19:00" },
+    {
+      label: "Mercoledì",
+      dayOfWeek: "Wednesday",
+      opens: "11:00",
+      closes: "20:00",
+    },
+    {
+      label: "Giovedì",
+      dayOfWeek: "Thursday",
+      opens: "09:00",
+      closes: "19:00",
+    },
     { label: "Venerdì", dayOfWeek: "Friday", opens: "09:00", closes: "19:00" },
     { label: "Sabato", dayOfWeek: "Saturday", closed: true },
     { label: "Domenica", dayOfWeek: "Sunday", closed: true },
@@ -30,27 +41,49 @@ export const navigation = [
   ["Recensioni", "recensioni"],
   ["Contatti", "contatti"],
 ];
+// Categorie confermate dall’utente dai materiali Instagram ufficiali.
 export const treatments = [
   {
-    id: "mani",
-    title: "Manicure e cura delle mani",
-    label: "01 / MANI",
-    text: "Un momento da dedicare alle tue mani. Scrivici per conoscere i trattamenti disponibili e scegliere quello adatto alle tue esigenze.",
-    image: asset("/images/mani.svg"),
+    id: "manicure-pedicure",
+    title: "Pedicure & Manicure",
+    label: "01 / MANI E PIEDI",
+    icon: "hands",
+    text: "Unghie, cuticole e pelle di mani e piedi ricevono attenzioni dedicate, per un aspetto ordinato e curato. Completano i servizi ricostruzione unghie, refill gel e semipermanente: scrivici per scegliere la soluzione più adatta a te.",
   },
   {
-    id: "piedi",
-    title: "Pedicure e cura dei piedi",
-    label: "02 / PIEDI",
-    text: "La cura di sé passa anche dai piccoli gesti. Contattaci per informazioni sui servizi dedicati al benessere e alla bellezza dei piedi.",
-    image: asset("/images/piedi.svg"),
+    id: "epilazione",
+    title: "Ceretta & Pasta di zucchero",
+    label: "02 / EPILAZIONE",
+    icon: "flower",
+    text: "Dalla ceretta tradizionale alla pasta di zucchero lavorata a mano, diverse possibilità per la tua epilazione. Per le zone più piccole e delicate, o se hai la pelle sensibile, chiedici quale metodo scegliere in base alle tue esigenze.",
   },
   {
-    id: "unghie",
-    title: "Bellezza delle unghie",
-    label: "03 / UNGHIE",
-    text: "Dettagli che parlano di te. Scopri con noi le possibilità per le tue unghie e richiedi informazioni su tecniche e disponibilità.",
-    image: asset("/images/unghie.svg"),
+    id: "laminazione-ciglia",
+    title: "Laminazione ciglia",
+    label: "03 / SGUARDO",
+    icon: "eye",
+    text: "Un trattamento che si prende cura delle ciglia naturali e ne valorizza la curvatura. Lo sguardo acquista definizione e le ciglia appaiono più ordinate e piene, per un risultato che richiama l’effetto del mascara.",
+  },
+  {
+    id: "massaggio",
+    title: "Massaggio Viso & Corpo",
+    label: "04 / RELAX",
+    icon: "waves",
+    text: "Una pausa dedicata al rilassamento e al piacere di sentirsi bene. Manualità e tipologie di massaggio vengono scelte in base alle esigenze della persona, per aiutare ad allentare le tensioni e ritrovare una piacevole sensazione di benessere.",
+  },
+  {
+    id: "trattamenti-viso-corpo",
+    title: "Trattamenti Viso & Corpo",
+    label: "05 / CURA DELLA PELLE",
+    icon: "sparkles",
+    text: "La cura della pelle incontra il piacere di una pausa per te. I trattamenti viso e corpo con Beauty Spa uniscono attenzioni estetiche e benessere: contattaci per conoscere i percorsi disponibili e trovare quello più vicino ai tuoi desideri.",
+  },
+  {
+    id: "pressomassaggio",
+    title: "Pressomassaggio",
+    label: "06 / LEGGEREZZA",
+    icon: "wind",
+    text: "Un trattamento a compressione ritmica pensato per favorire il drenaggio dei liquidi e aiutare ad attenuare la sensazione di gonfiore e pesantezza. Un momento dedicato alla leggerezza delle gambe: chiedici informazioni per capire se fa al caso tuo.",
   },
 ];
 export const gallery = [

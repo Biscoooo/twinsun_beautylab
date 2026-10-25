@@ -17,11 +17,33 @@ const assert = require("node:assert/strict");
   await page.goto(process.env.TEST_URL || "http://127.0.0.1:5173/");
   await page.getByRole("heading", { level: 1 }).waitFor();
   assert.equal(await page.locator("main section[id]").count(), 7);
+  assert.equal(await page.locator("#trattamenti article").count(), 6);
+  for (const title of [
+    "Pedicure & Manicure",
+    "Ceretta & Pasta di zucchero",
+    "Laminazione ciglia",
+    "Massaggio Viso & Corpo",
+    "Trattamenti Viso & Corpo",
+    "Pressomassaggio",
+  ]) {
+    assert.equal(
+      await page.getByRole("heading", { name: title, exact: true }).count(),
+      1,
+    );
+  }
   const logos = page.locator(".brand-official-logo");
   assert.equal(await logos.count(), 2);
-  await logos.first().evaluate(img => img.decode());
-  assert.ok(await logos.evaluateAll(images => images.every(img => img.complete && img.naturalWidth === 150)));
-  assert.equal(await page.locator('link[rel="icon"]').getAttribute('href'), new URL('images/logo.jpg', process.env.TEST_URL || 'http://127.0.0.1:5173/').pathname);
+  await logos.first().evaluate((img) => img.decode());
+  assert.ok(
+    await logos.evaluateAll((images) =>
+      images.every((img) => img.complete && img.naturalWidth === 150),
+    ),
+  );
+  assert.equal(
+    await page.locator('link[rel="icon"]').getAttribute("href"),
+    new URL("images/logo.jpg", process.env.TEST_URL || "http://127.0.0.1:5173/")
+      .pathname,
+  );
   assert.equal(
     await page
       .locator('a[href^="https://wa.me/"]')

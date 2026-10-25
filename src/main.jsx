@@ -15,6 +15,10 @@ import {
   Sparkles,
   Heart,
   Flower2,
+  Hand,
+  Eye,
+  Waves,
+  Wind,
 } from "lucide-react";
 import {
   studio,
@@ -25,6 +29,15 @@ import {
   businessSchema,
 } from "./data";
 import "./style.css";
+const treatmentIcons = {
+  hands: Hand,
+  flower: Flower2,
+  eye: Eye,
+  waves: Waves,
+  sparkles: Sparkles,
+  wind: Wind,
+};
+
 function WhatsApp({ children = "Scrivici su WhatsApp", className = "" }) {
   return (
     <a
@@ -42,9 +55,18 @@ function Brand() {
   return (
     <a href="#home" className="brand" aria-label="Twin Sun Beautylab — Home">
       {studio.logo ? (
-        <img className="brand-official-logo" src={studio.logo} width="62" height="62" alt="" />
+        <img
+          className="brand-official-logo"
+          src={studio.logo}
+          width="62"
+          height="62"
+          alt=""
+        />
       ) : (
-        <span className="brand-symbol" aria-hidden="true"><Sun /><Sun /></span>
+        <span className="brand-symbol" aria-hidden="true">
+          <Sun />
+          <Sun />
+        </span>
       )}
       <span>
         TWIN SUN<small>BEAUTYLAB</small>
@@ -97,7 +119,13 @@ function OpeningHours() {
           <div key={`${row.dayOfWeek}-${i}`}>
             <dt>{row.label}</dt>
             <dd>
-              {row.closed ? "Chiuso" : <><time>{row.opens}</time>–<time>{row.closes}</time></>}
+              {row.closed ? (
+                "Chiuso"
+              ) : (
+                <>
+                  <time>{row.opens}</time>–<time>{row.closes}</time>
+                </>
+              )}
             </dd>
           </div>
         ))}
@@ -247,11 +275,17 @@ function App() {
         </section>
         <div className="ribbon" aria-label="Cura, equilibrio, bellezza">
           <span>CURA DI TE</span>
-          <span aria-hidden="true"><Sun strokeWidth={1} /></span>
+          <span aria-hidden="true">
+            <Sun strokeWidth={1} />
+          </span>
           <span>PICCOLI RITUALI</span>
-          <span aria-hidden="true"><Sun strokeWidth={1} /></span>
+          <span aria-hidden="true">
+            <Sun strokeWidth={1} />
+          </span>
           <span>BELLEZZA AUTENTICA</span>
-          <span aria-hidden="true"><Sun strokeWidth={1} /></span>
+          <span aria-hidden="true">
+            <Sun strokeWidth={1} />
+          </span>
           <span>IL TUO TEMPO</span>
         </div>
         <section id="chi-siamo" className="about section reveal">
@@ -288,9 +322,9 @@ function App() {
               dove iniziare il tuo prossimo rituale di bellezza.
             </p>
             <p>
-              Mani, piedi e unghie: raccontaci cosa desideri. Il primo passo è
-              una conversazione, per conoscere i trattamenti e trovare il tuo
-              momento.
+              Dalla cura di mani e piedi ai trattamenti viso e corpo,
+              dall’epilazione ai piccoli rituali per lo sguardo: raccontaci cosa
+              desideri e trova il tuo momento di bellezza.
             </p>
             <a className="text-link" href="#contatti">
               Vieni a conoscerci <ArrowUpRight size={17} />
@@ -315,40 +349,41 @@ function App() {
             </p>
           </div>
           <div className="treatment-grid">
-            {treatments.map((t) => (
-              <article className="treatment reveal" key={t.id}>
-                <div className="treatment-image">
-                  <img
-                    src={t.image}
-                    alt={`Illustrazione segnaposto per ${t.title.toLowerCase()}`}
-                    width="600"
-                    height="650"
-                    loading="lazy"
-                  />
-                  <span>IMMAGINE SEGNAPOSTO</span>
+            {treatments.map((t) => {
+              const TreatmentIcon = treatmentIcons[t.icon] || Flower2;
+              return (
+                <article className="treatment reveal" key={t.id}>
+                  <div className="treatment-image service-art">
+                    <TreatmentIcon
+                      className="service-mark"
+                      aria-hidden="true"
+                      strokeWidth={1}
+                    />
+                    <span>TWIN SUN BEAUTYLAB</span>
+                    <a
+                      href={studio.whatsapp}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Informazioni su ${t.title}`}
+                      className="circle-link"
+                    >
+                      <ArrowUpRight />
+                    </a>
+                  </div>
+                  <p className="eyebrow">{t.label}</p>
+                  <h3>{t.title}</h3>
+                  <p>{t.text}</p>
                   <a
                     href={studio.whatsapp}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={`Informazioni su ${t.title}`}
-                    className="circle-link"
+                    className="text-link"
                   >
-                    <ArrowUpRight />
+                    Richiedi informazioni <ArrowUpRight size={16} />
                   </a>
-                </div>
-                <p className="eyebrow">{t.label}</p>
-                <h3>{t.title}</h3>
-                <p>{t.text}</p>
-                <a
-                  href={studio.whatsapp}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-link"
-                >
-                  Richiedi informazioni <ArrowUpRight size={16} />
-                </a>
-              </article>
-            ))}
+                </article>
+              );
+            })}
           </div>
           <p className="section-footnote">
             Per conoscere l’elenco aggiornato dei servizi e i dettagli dei

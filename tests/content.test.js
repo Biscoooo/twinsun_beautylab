@@ -15,19 +15,33 @@ test("Contatto unico WhatsApp senza messaggio o parametri", () => {
   assert.ok(!app.includes("<form"));
   assert.ok(!app.includes("<iframe"));
 });
-test("Solo categorie del brief, senza prezzi né valutazioni inventate", () => {
+test("Solo categorie confermate, senza prezzi né valutazioni inventate", () => {
   assert.deepEqual(
     treatments.map((t) => t.id),
-    ["mani", "piedi", "unghie"],
+    [
+      "manicure-pedicure",
+      "epilazione",
+      "laminazione-ciglia",
+      "massaggio",
+      "trattamenti-viso-corpo",
+      "pressomassaggio",
+    ],
   );
   assert.equal(studio.hours.length, 7);
-  assert.equal(businessSchema.openingHoursSpecification.filter(row => row.opens === "00:00" && row.closes === "00:00").length, 2);
+  assert.equal(
+    businessSchema.openingHoursSpecification.filter(
+      (row) => row.opens === "00:00" && row.closes === "00:00",
+    ).length,
+    2,
+  );
   assert.ok(!businessSchema.aggregateRating);
   assert.ok(!businessSchema.openingHours);
   assert.equal(businessSchema.telephone, studio.phone);
 });
 test("Tutte le immagini e destinazioni interne esistono", () => {
-  for (const entry of [...treatments, ...gallery])
+  for (const entry of [...treatments, ...gallery].filter(
+    (entry) => entry.image,
+  ))
     assert.ok(existsSync(`public${entry.image}`), entry.image);
   const app = readFileSync("src/main.jsx", "utf8");
   for (const [, id] of navigation) assert.ok(app.includes(`id="${id}"`), id);
