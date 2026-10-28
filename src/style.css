@@ -1052,7 +1052,7 @@ dialog::backdrop {
     padding: 20px 6% 30px;
     box-shadow: 0 15px 20px #0001;
     font-size: 14px;
-    max-height: calc(100dvh - 78px);
+    max-height: calc(100dvh - 111px);
     overflow: auto;
   }
   nav.open {
@@ -1894,5 +1894,42 @@ h2 {
   }
   .map-address {
     font-size: 30px;
+  }
+}
+
+/* Controlli più comodi sui telefoni, anche in orientamento orizzontale. */
+@media (max-width: 900px) {
+  .floating-wa[data-menu-open="true"] {
+    display: none;
+  }
+}
+@media (max-width: 600px) {
+  nav {
+    max-height: calc(100dvh - 102px);
+  }
+  .footer-nav a,
+  .footer-contact a,
+  .contact-details a,
+  .legal-buttons button {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  .footer-nav {
+    gap: 4px 24px;
+  }
+  .footer-contact {
+    gap: 3px;
+  }
+  .legal-buttons button {
+    padding: 0 8px;
+  }
+  .opening-hours dl {
+    max-width: min(300px, calc(100% - 48px));
+  }
+}
+@media (max-width: 360px) {
+  .hero h1 {
+    font-size: clamp(49px, 15.5vw, 56px);
   }
 }

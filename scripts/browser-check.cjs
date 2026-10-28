@@ -13,6 +13,16 @@ const assert = require("node:assert/strict");
   });
   const page = await context.newPage();
   const errors = [];
+  const assetFailures = [];
+  const testUrl = process.env.TEST_URL || "http://127.0.0.1:5173/";
+  page.on("response", (response) => {
+    if (
+      response.url().startsWith(new URL(testUrl).origin) &&
+      response.status() >= 400
+    ) {
+      assetFailures.push({ url: response.url(), status: response.status() });
+    }
+  });
   const mapRequests = [];
   page.on("request", (request) => {
     if (new URL(request.url()).hostname === "www.google.com")
@@ -186,7 +196,7 @@ const assert = require("node:assert/strict");
       })),
     ),
   );
-  for (const width of [360, 390, 768, 1024, 1440]) {
+  for (const width of [320, 360, 375, 390, 414, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     assert.equal(
       await page.evaluate(
@@ -196,6 +206,34 @@ const assert = require("node:assert/strict");
       `horizontal overflow at ${width}`,
     );
   }
+  await page.setViewportSize({ width: 320, height: 720 });
+  assert.ok(
+    await page
+      .locator("h1")
+      .evaluate((el) => el.getBoundingClientRect().height < 200),
+    "Titolo leggibile su telefono stretto",
+  );
+  await page.setViewportSize({ width: 844, height: 390 });
+  await page.goto(testUrl);
+  await page.getByRole("button", { name: "Apri menu" }).click();
+  const menuRect = await page.locator("nav").boundingBox();
+  assert.ok(
+    menuRect.y + menuRect.height <= 391,
+    "Menu contenuto nel viewport landscape",
+  );
+  assert.equal(
+    await page.locator(".floating-wa").isVisible(),
+    false,
+    "Pulsante flottante nascosto nel menu",
+  );
+  const menuCta = page.locator("nav .nav-cta");
+  await menuCta.scrollIntoViewIfNeeded();
+  const ctaRect = await menuCta.boundingBox();
+  assert.ok(
+    ctaRect.y >= menuRect.y - 1 && ctaRect.y + ctaRect.height <= 391,
+    "CTA menu raggiungibile interamente",
+  );
+  await page.getByRole("button", { name: "Chiudi menu" }).click();
   await page.setViewportSize({ width: 390, height: 844 });
   await page.getByRole("button", { name: "Apri menu" }).click();
   assert.equal(
@@ -227,6 +265,26 @@ const assert = require("node:assert/strict");
     scrollTo(0, 0);
   });
   await page.screenshot({ path: "/tmp/twinsun-mobile.png", fullPage: true });
+  assert.ok(
+    (await page.locator(".contact-copy>p:not(.eyebrow)").innerText())
+      .replace(/\s+/g, " ")
+      .includes("tuo? Scrivici"),
+  );
+  assert.ok(
+    (await page.locator(".review-intro>p:not(.eyebrow)").innerText())
+      .replace(/\s+/g, " ")
+      .includes("dettagli. Il centro"),
+  );
+  const hoursRight = await page
+    .locator(".opening-hours dl")
+    .evaluate((el) => el.getBoundingClientRect().right);
+  const floatingLeft = await page
+    .locator(".floating-wa")
+    .evaluate((el) => el.getBoundingClientRect().left);
+  assert.ok(
+    hoursRight < floatingLeft,
+    "Orari fuori dallo spazio del pulsante flottante",
+  );
   const mobileA11y = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"])
     .analyze();
@@ -244,7 +302,7 @@ const assert = require("node:assert/strict");
   assert.equal(a11y.violations.length, 0);
   assert.equal(mobileA11y.violations.length, 0);
   console.log(
-    "PASS: gallery, modal Escape, FAQ, privacy, mobile navigation, WhatsApp, 5 responsive viewports, browser console, axe desktop/mobile.",
+    "PASS: gallery, modal Escape, FAQ, privacy, mobile navigation, WhatsApp, 8 responsive widths and landscape menu, browser console, axe desktop/mobile.",
   );
   // Verifica gli effetti reali e il cambio di preferenza senza ricaricare il sito.
   await page.setViewportSize({ width: 1440, height: 1000 });
@@ -314,6 +372,7 @@ const assert = require("node:assert/strict");
   console.log(
     "PASS: animazioni attive, comparsa delle schede, cambio live a movimento ridotto, fallback senza IntersectionObserver.",
   );
+  assert.deepEqual(assetFailures, [], "Nessuna risorsa locale con errore HTTP");
   await browser.close();
 })().catch((e) => {
   console.error(e);

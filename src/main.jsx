@@ -343,7 +343,7 @@ function App() {
             <div className="hero-bottom">
               <span>PRENDITI IL TEMPO CHE MERITI</span>
               <span className="line" />
-              <span>01 — 03</span>
+              <span>TORINO</span>
             </div>
           </div>
           <div className="hero-art">
@@ -584,8 +584,7 @@ function App() {
             </h2>
             <p>
               Accoglienza, attenzione e piccoli dettagli.
-              <br />
-              Il centro raccontato da chi lo ha vissuto.
+              <br /> Il centro raccontato da chi lo ha vissuto.
             </p>
           </div>
           <div className="review-grid">
@@ -662,7 +661,7 @@ function App() {
           {[
             [
               "Come posso contattare il centro?",
-              "Scrivici direttamente su WhatsApp al +39 345 083 3217. Non sono necessari account o registrazioni e non è presente un sistema di prenotazione sul sito.",
+              "Per informazioni sui trattamenti e sulle disponibilità, scrivici su WhatsApp al +39 345 083 3217.",
             ],
             [
               "Dove si trova Twin Sun Beautylab?",
@@ -670,7 +669,7 @@ function App() {
             ],
             [
               "Quali sono gli orari e i trattamenti disponibili?",
-              "Contattaci su WhatsApp per conoscere gli orari aggiornati, l’elenco dei trattamenti e le disponibilità. Trovi gli orari di apertura nella sezione contatti.",
+              "Trovi i servizi nella sezione Trattamenti e gli orari di apertura nei Contatti. Per scegliere il trattamento o conoscere le disponibilità, scrivici su WhatsApp.",
             ],
           ].map(([q, a], i) => (
             <div className="faq-item" key={q}>
@@ -700,8 +699,8 @@ function App() {
             </h2>
             <p>
               Hai voglia di dedicarti un momento tutto tuo?
-              <br />
-              Scrivici per conoscere i trattamenti e richiedere informazioni.
+              <br /> Scrivici per conoscere i trattamenti e richiedere
+              informazioni.
             </p>
             <WhatsApp>Contattaci su WhatsApp</WhatsApp>
             <div className="contact-details">
@@ -788,6 +787,7 @@ function App() {
       </footer>
       <a
         className="floating-wa"
+        data-menu-open={menu}
         href={studio.whatsapp}
         target="_blank"
         rel="noopener noreferrer"
@@ -858,15 +858,16 @@ function App() {
                 centro: {studio.phone}.
               </p>
               <p>
-                L’hosting può trattare dati tecnici di connessione. Prima della
-                pubblicazione occorre completare l’informativa con identità e
-                recapiti del titolare, dati del fornitore di hosting, tempi di
-                conservazione, basi giuridiche e modalità di esercizio dei
-                diritti.
+                Il sito è ospitato su Vercel. Il fornitore di hosting può
+                trattare dati tecnici di connessione. L’informativa va
+                completata con identità e recapiti del titolare, dettagli dei
+                trattamenti, tempi di conservazione, basi giuridiche e modalità
+                di esercizio dei diritti.
               </p>
               <p className="notice">
-                Bozza informativa: i dati legali e di hosting non sono stati
-                forniti. Da completare prima della pubblicazione.
+                Bozza informativa: da completare con i dati del titolare e le
+                informazioni sui trattamenti prima della pubblicazione
+                definitiva.
               </p>
             </>
           ) : (

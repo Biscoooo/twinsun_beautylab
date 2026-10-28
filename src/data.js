@@ -54,7 +54,7 @@ export const treatments = [
     title: "Pedicure & Manicure",
     label: "01 / MANI E PIEDI",
     icon: "hands",
-    text: "Unghie, cuticole e pelle di mani e piedi ricevono attenzioni dedicate, per un aspetto ordinato e curato. Completano i servizi ricostruzione unghie, refill gel e semipermanente: scrivici per scegliere la soluzione più adatta a te.",
+    text: "Unghie, cuticole e pelle di mani e piedi ricevono attenzioni dedicate, per un aspetto ordinato e curato. Puoi scegliere anche ricostruzione delle unghie, refill in gel e semipermanente: scrivici per trovare la soluzione più adatta a te.",
   },
   {
     id: "epilazione",
